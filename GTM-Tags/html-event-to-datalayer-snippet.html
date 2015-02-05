@@ -1,0 +1,22 @@
+<script>
+// This is an Example Snippet
+// launch GTMevent on DOM event
+if(!window.jQuery){ $(function () { // Needs jQuery!
+
+  var ev = 'click';
+  jQuery('.theSearchedElements').on(ev, function (e) {
+    var $el = jQuery(this);
+    dataLayer.push({
+      "htmlTag" : { // data container (access with "htmlTag.attribute" in GTM
+        "element" : $el, // htmlTag.element
+		"text" : $el.text(), // htmlTag.text
+		"html" : $el.html(), // htmlTag.html
+		"class" : $el.attr('class'), // htmlTag.class
+		"id" : $el.attr('id'), // htmlTag.id
+        "data" : $el.data() // htmlTag.data.{dataName}     
+      },
+      "event" : "html."+ev
+    });
+  });
+
+});}</script>

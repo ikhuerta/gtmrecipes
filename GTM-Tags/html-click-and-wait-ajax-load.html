@@ -1,0 +1,18 @@
+<script>
+// This is an Example Snippet
+// On a button/link click, wait until the new content is loaded.
+// - If the new content has a defined HTML tag, launch GTM-event
+// - If the defined HTML tag is not visible in 5 seconds, kill the process
+// used for: validate the html answer in ajax form submits
+if(!window.jQuery){ $(function () { // Needs jQuery!
+
+  // Create clickAndWait function:
+  var cwa = []; if (typeof jQuery().clickAndWait != 'function') jQuery.fn.clickAndWait = function( search, callbackfunction ) { var $t = $(this);$t.data('cws', search);$t.data('cwcb', callbackfunction);jQuery(this).click(function () {var $t = jQuery(this);var s = $t.data('cws'); cwa[s] = {j:0,i: setInterval( function () { if ( jQuery(s).is(':visible') ) $t.data('cwcb')(); if ( jQuery(s).is(':visible') || cwa[s].j >= 10 ) clearInterval(cwa[s].i);cwa[s].j++;},500)};});};
+
+  jQuery( '.buttonClickClass' ).clickAndWait( '.searchedElementLoadedAfterClick', function () { 
+	dataLayer.push({
+	  'event' : 'form.loaded'
+	});
+  });
+  
+});}</script>

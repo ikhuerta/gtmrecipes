@@ -1,0 +1,22 @@
+<script>
+// This is an Example Snippet
+// Get data from html tags and create a dataLayer-event with the parsed data of each element in the jQuery select
+// Common use: print events, enhanced ecoomerce impressions
+if(!window.jQuery){ $(function () { // Needs jQuery!
+ 
+  jQuery('.theSearchedElements').each( function (i,el) {
+    var $el = jQuery(el);
+    dataLayer.push({
+      "htmlTag" : { // data container (access with "htmlTag.attribute" in GTM
+        "element" : $el, // htmlTag.element
+		"text" : $el.text(), // htmlTag.text
+		"html" : $el.html(), // htmlTag.html
+		"class" : $el.attr('class'), // htmlTag.class
+		"id" : $el.attr('id'), // htmlTag.id
+        "data" : $el.data() // htmlTag.data.{dataName}     
+      },
+      "event" : "html.view"
+    });
+  });
+  
+});}</script>
