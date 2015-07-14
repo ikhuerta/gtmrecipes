@@ -1,0 +1,16 @@
+<script>
+var percent = 1;
+
+var cc = function (v) { var cn = 'lo'; if (v) document.cookie = cn+'='+v;  else { var re = new RegExp( cn+'=([^;]+)(;.+)?$'); var pd = document.cookie.match( re ); v = (pd && pd[1]) ? pd[1] : ''; } return v;};
+var d = cc(); if ( !d ) { var r = Math.random()*100; d = ( r <= percent ) ? 'on' : 'off'; cc(d);} 
+if ( d == 'on' ) {
+
+  // YOUR FUNCTION
+
+}
+</script>
+
+
+ 
+ 
+ 

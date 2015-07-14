@@ -1,0 +1,22 @@
+<script>
+// Add this tag before Google Analytics using priority in GTM
+
+/* Google Analytics Campaign Emulator //  Author: Iñaki Huerta >> @ikhuerta */ gaEmulator={params:{medium:"utm_medium",source:"utm_source",campaign:"utm_campaign",term:"utm_term",content:"utm_content",id:"utm_id"},vals:{},get:function(e){if(e)return this.vals[e];else return this.vals},setFromParams:function(){var e=false;for(i in this.params){this.vals[i]=this.gp(this.params[i],location.href)||"(not set)";if(this.vals[i]!="(not set)")e=true}return e},setDef:function(){var e=this.gr();for(i in this.params){if(!this.vals[i]||this.vals[i]==""||this.vals[i]=="(not set)"){switch(i){case"medium":this.vals[i]=e["medium"];break;case"source":this.vals[i]=e["source"];break;case"term":this.vals[i]=e["term"];break;default:this.vals[i]="(not set)"}}}},gr:function(){if(this.vals["referrer"]=="")return{medium:"(not set)",source:"(not set)",term:"(not set)"};var e=false;for(i in this.searchEngines){var t=this.searchEngines[i].split("|");t[0]=t[0].split(".").join("\\.").split("/").join("\\/");var n=new RegExp("^https?://[^/]*"+t[0],"gi");if(n.test(this.vals["referrer"])){t[1]=t[1].split(",");for(var r=0;r<t[1].length;r++)if(kw=this.gp(t[1][r],this.vals["referrer"])){kw=kw.split("+").join(" ");break}var e=i;if(!kw)kw="(not provided)";break}}if(e)return{medium:"organic",source:e,term:kw};else return{medium:"referral",source:this.vals["referrer"].split("/")[2],term:"(not set)"}},isReset:function(){if(this.gp(this.params.medium,location.href)||this.gp(this.params.source,location.href))return true;if(document.referrer.toLowerCase()=="")return false;var e=true;for(i in this.ir)if(document.referrer.toLowerCase().indexOf(this.ir[i]) > -1){e=false;break}return e},gp:function(e,t){var n="?"+(t+"").split("?",2)[1];n=n.match("(?:\\?|&)"+e+"=([^&#]*)");return n&&n.length==2?decodeURI(n[1]):""},searchEngines:{Daum:".daum.net|q",Eniro:".eniro.se|search_word",Naver:".naver.com|query",Google:".google.|q",Yahoo:".yahoo.com|p",MSN:".msn.com|q",Bing:".bing.com|q",AOL:".aol.com|query,encquery",Lycos:".lycos.com|query",Ask:".ask.com|q",Altavista:".altavista.com|q",Netscape:"search.netscape.com|query",CNN:".cnn.com/SEARCH|query",About:".about.com|terms",Mamma:".mamma.com|query",Alltheweb:".alltheweb.com|q",Voila:".voila.fr|rdata",Virgilio:"search.virgilio.it|qs",Live:".bing.com|q",Baidu:".baidu.com|wd",Alice:".alice.com|qs",Yandex:".yandex.com|text",Najdi:".najdi.org.mk|q",AOL:".aol.com|q",Mama:".mamma.com|query",Seznam:".seznam.cz|q",Search:".search.com|q","Wirtulana Polska":".wp.pl|szukaj","O*NET":"online.onetcenter.org|qt",Szukacz:".szukacz.pl|q",Yam:".yam.com|k",PCHome:".pchome.com|q",Kvasir:".kvasir.no|q",Sesam:"sesam.no|q",Ozu:".ozu.es|q",Terra:".terra.com|query",Mynet:".mynet.com|q",Ekolay:".ekolay.net|q",Rambler:".rambler.ru|words"},addIgnoredRef:function(e){this.ir.push(e)},ir:[],prep:function(){var e=location.href.split("/")[2].split(".").reverse();this.domain=e[1]+"."+e[0];this.ir.push(this.domain)},exec:function(){this.prep();this.vals=this.c("_gaCamp");if(!this.vals.medium&&!this.vals.source||this.isReset()){this.vals.referrer=document.referrer.toLowerCase();this.vals.landingPage=location.href.replace('gclid=','utm_medium=cpc&utm_source=google&gclid=');if(!this.setFromParams())this.setDef()}this.c("_gaCamp",this.vals)},setCookieTime:function(e){this.ct=e*1e3},ct:15552000000,c:function(e,t){if(t){var n=new Date;n.setTime(n.getTime()+this.ct);document.cookie=e+"="+encodeURI(JSON.stringify(t))+"; expires="+n.toGMTString()+"; domain=."+this.domain+"; path=/"}else{var r=new RegExp(e+"=([^;]+)(;.+)?$");var i=document.cookie.match(r);return i&&i[1]?JSON.parse(decodeURI(i[1])):{}}}}
+
+gaEmulator.setCookieTime(15*24*60*60); // 15 days
+gaEmulator.addIgnoredRef('paypal.com');
+gaEmulator.addIgnoredRef('sermepa.es');
+
+gaEmulator.exec(); // lanzamos el sistema de campañas en todas las páginas vistas.
+
+
+/* MACRO TO GET THE VALUES: 
+function () {
+
+var re = new RegExp( '_gaCamp=([^;]+)(;.+)?$'); var pd = document.cookie.match( re ); v = (pd && pd[1]) ? JSON.parse(decodeURI(pd[1])) : '';
+return v.medium;
+
+}
+*/
+
+</script>

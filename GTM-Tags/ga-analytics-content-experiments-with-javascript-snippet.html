@@ -1,0 +1,18 @@
+<script src="//www.google-analytics.com/cx/api.js?experiment={{Ga Experiment Id}}"></script>
+<script>
+// Add this tag before Google Analytics using priority in GTM
+// Remember tu set up de EXPERIMENT ID as Variable named "Ga Experiment Id" in GTM.
+// you can view the design of any variation adding ?variation={number} to the URL
+
+if ( gavariation = location.href.match( /[&?]gavariation=([0-9]+)(&.*)?$/gi) ) gavariation = gavariation[0].substring(1).split('=',2)[1].split('&')[0]*1;
+else gavariation = cxApi.chooseVariation();
+switch ( gavariation ) {
+  case 0: break; // original, no changes
+  case 1: // variation 1
+    // add your changes for variation 1
+    break;
+  case 2: // variation 2
+    // add your changes for variation 2
+    break;
+}
+</script>

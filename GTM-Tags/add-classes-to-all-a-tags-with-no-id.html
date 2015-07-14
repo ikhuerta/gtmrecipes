@@ -1,0 +1,21 @@
+<script>
+// This is a helper for GTM
+// On HTML load, search all <a/> tags. If the tag has no id, add classes to identify the link with click events
+// Common use: identify all links in click triggers
+// Example:                <div id="myId"><ul><li><a href="...">...</a></li></ul></div> 
+//    will be transform in <div id="myId"><ul><li><a href="..." class="myId-child myId-child-1 myId-li myId-li-1 myId-child-1-li-1">...</a></li></ul></div>
+if(!window.jQuery){ $(function () { // Needs jQuery!
+ 
+jQuery(function () {
+jQuery('a').each(function (i,el){
+  var a = jQuery(el);
+  if (!a.attr('id')) { 
+	var pid = a.closest('[id]').attr('id');
+	var pt = a.parent().prop("tagName").toLowerCase();
+	for(var j=1;j<99;j++) if ( !jQuery('.'+pid+'-child-'+j).length ) break;
+	for(var k=1;k<99;k++) if ( !jQuery('.'+pid+'-'+pt+'-'+k).length ) break;
+	a.addClass(pid+'-child '+pid+'-child-'+j+' '+pid+'-'+pt+' '+pid+'-'+pt+'-'+k+' '+pid+'-child-'+j+'-'+pt+'-'+k);
+  }
+});
+  
+});}</script>
