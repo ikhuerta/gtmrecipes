@@ -1,0 +1,59 @@
+<script>
+// Needs jQuery!
+// Auto send GTM events in some html elements.
+// view sends one gtm event for each element printed on the html
+// other types sends gtm on DOM event on the page
+
+// use your own definitions for each event:
+var sendGTMEventOn = {
+  'view' : '.one-printed-element',
+  'click' : [ '.button','.octicon' ],
+  'submit' : 'form#lead'
+}
+
+// ----------------------------------------
+
+
+if(window.jQuery){ jQuery(function () {
+for (var action in sendGTMEventOn)
+{
+
+  if ( typeof sendGTMEventOn[action] != 'string') sendGTMEventOn[action] = sendGTMEventOn[action].join(',');
+  if ( action == 'view' )
+  {
+    jQuery(sendGTMEventOn[action]).each( function (i,el) {
+      var $el = jQuery(el);
+      dataLayer.push({
+        "htmlTag" : { // data container (access with "htmlTag.{attribute name}" in GTM
+          "element" : $el, // htmlTag.element
+          "text" : $el.text(), // htmlTag.text
+          "html" : $el.html(), // htmlTag.html
+          "class" : $el.attr('class'), // htmlTag.class
+          "id" : $el.attr('id'), // htmlTag.id
+          "data" : $el.data() // htmlTag.data.{dataName}     
+        },
+        "event" : "html.view"
+      });
+    });
+  }
+  else
+  {
+    jQuery(sendGTMEventOn[action]).data('_gtme','html.'+action).on(action, function (e) {
+      var $el = jQuery(this);
+      dataLayer.push({
+        "htmlTag" : { // data container (access with "htmlTag.{attribute name}" in GTM
+          "element" : $el, // htmlTag.element
+          "text" : $el.text(), // htmlTag.text
+          "html" : $el.html(), // htmlTag.html
+          "class" : $el.attr('class'), // htmlTag.class
+          "id" : $el.attr('id'), // htmlTag.id
+          "data" : $el.data() // htmlTag.data.{dataName}     
+        },
+        "event" : $el.data('_gtme')
+      });
+    });
+  }
+}
+
+});}
+</script>
