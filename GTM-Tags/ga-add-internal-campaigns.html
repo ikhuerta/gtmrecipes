@@ -12,3 +12,6 @@ gaic.get = function (k) { return (k) ? gaic.v[k] : gaic.v; }; gaic();
 
 if(window.jQuery){ window.jQuery(function () { window.jQuery('.internal-campaign').bind('click',function () { gaic.r( $(this).data('ic') ); }); });}
 </script>
+
+
+var re = new RegExp( '_ga=([^;]+)(;.+)?$'); var pd = document.cookie.match( re ); var idClient = (pd && pd[1]) ? pd[1] : '';

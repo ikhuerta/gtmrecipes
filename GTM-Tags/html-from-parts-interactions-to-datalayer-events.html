@@ -1,0 +1,62 @@
+<script>
+/*
+Form parts interactions as dataLayer events
+
+1) Gets different containers in a page form (selected with partContainer query var)
+2) Any first interaction with this part (focus or click) sends dataLayer "formPartInteraction" event.
+3) Also sends a virtualUrl dataLayer parameter ( real url + cointarner addUrlDataParams data attributes ) and virtualUrlPart (without realUrl)
+*/
+if (window.jQuery) {
+var formParts = {
+	
+	//config:
+	partContainer : '.pageSectionName',
+	addUrlDataParams : [ 'pagesection', 'box-name'],
+	//end config
+	
+	vars : {},
+	exec : function () {
+		console.log(this.partContainer);
+		jQuery(this.partContainer).each(function (i, el){
+			var $el = jQuery(el);
+			var up = [];
+			for(var i=0;i<formParts.addUrlDataParams.length;i++) if (formParts.addUrlDataParams[i]) up.push( $el.data( formParts.addUrlDataParams[i] ) );
+			up = '/virtual-page/' + up.join('/');
+			$fe = jQuery('input,select,textarea', $el);
+			$fe.data('up', up);
+			$fe.focus( formParts.sendDataLayerEvent );
+			$fc = jQuery('input,select,textarea,button,a', $el);
+			$fc.data('up', up);
+			$fc.click( formParts.sendDataLayerEvent );
+			
+		});
+	},
+	sendDataLayerEvent : function () {
+		$el = jQuery(this);
+		var up = $el.data('up');
+		if ( !formParts.vars[up] )
+		{
+			var u = (document.location.search) ? document.location.pathname+up+document.location.search : document.location.pathname+up+document.location.search;
+			dataLayer.push({
+				'event' : 'formPartInteraction',
+				'virtualUrl' : u,
+				'virtualUrlpart' : up
+			});
+			console.log({
+				'event' : 'formPartInteraction',
+				'virtualUrl' : u,
+				'virtualUrlpart' : up
+			});
+			formParts.vars[up] = true;
+		}
+	
+	}
+	
+}
+jQuery(function () { formParts.exec(); });
+}
+</script>
+
+
+
+
